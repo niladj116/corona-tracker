@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <title>Corona Virus Report</title>
+    <script type="text/javascript">
+
+        function myFunction() {
+          // Declare variables
+          var input, filter, table, tr, td, i, txtValue;
+          input = document.getElementById("myInput");
+          filter = input.value.toUpperCase();
+          table = document.getElementById("myTable");
+          tr = table.getElementsByTagName("tr");
+
+          // Loop through all table rows, and hide those who don't match the search query
+          for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            td1 = tr[i].getElementsByTagName("td")[1];
+            if (td || td1) {
+              txtValue = td.textContent || td.innerText;
+              txtValue1 = td1.textContent || td1.innerText;
+              if (txtValue.toUpperCase().indexOf(filter) > -1 || txtValue1.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+              } else {
+                tr[i].style.display = "none";
+              }
+            }
+          }
+        }
+
+        function sortTable(n) {
+          var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0, v1, v2;
+          table = document.getElementById("myTable");
+          switching = true;
+          // Set the sorting direction to ascending:
+          dir = "asc";
+          /* Make a loop that will continue until
+          no switching has been done: */
+          while (switching) {
+            // Start by saying: no switching is done:
+            switching = false;
+            rows = table.rows;
+            /* Loop through all table rows (except the
+            first, which contains table headers): */
+            for (i = 1; i < (rows.length - 1); i++) {
+              // Start by saying there should be no switching:
+              shouldSwitch = false;
+              /* Get the two elements you want to compare,
+              one from current row and one from the next: */
+              x = rows[i].getElementsByTagName("TD")[n];
+              y = rows[i + 1].getElementsByTagName("TD")[n];
+              /* Check if the two rows should switch place,
+              based on the direction, asc or desc: */
+
+
+              if (isNaN(x.innerHTML) || isNaN(y.innerHTML)) {
+                v1 = x.innerHTML.toLowerCase();
+                v2= y.innerHTML.toLowerCase();
+              } else {
+                v1 = parseInt(x.innerHTML);
+                v2= parseInt(y.innerHTML);
+              }
+
+              if (dir == "asc") {
+                //if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                if (v1 > v2) {
+                  // If so, mark as a switch and break the loop:
+                  shouldSwitch = true;
+                  break;
+                }
+              } else if (dir == "desc") {
+                //if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                if (v1 < v2) {
+                  // If so, mark as a switch and break the loop:
+                  shouldSwitch = true;
+                  break;
+                }
+              }
+            }
+            if (shouldSwitch) {
+              /* If a switch has been marked, make the switch
+              and mark that a switch has been done: */
+              rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+              switching = true;
+              // Each time a switch is done, increase this count by 1:
+              switchcount ++;
+            } else {
+              /* If no switching has been done AND the direction is "asc",
+              set the direction to "desc" and run the while loop again. */
+              if (switchcount == 0 && dir == "asc") {
+                dir = "desc";
+                switching = true;
+              }
+            }
+          }
+        }
+
+        function cellStyle(value, row, index) {
+            return {
+                classes: value.trim() == 0 ? 'yes' : 'no'
+            };
+        }
+    </script>
+
+</head>
+<body>
+<div class="container">
+    <h2>Corona Virus Tracker</h2>
+
+    <div class="jumbotron">
+        <a>Total Deaths : </a>
+            <h1 class="display-4 text-danger" th:text="${#numbers.formatInteger(allTotalDeathCases,3,'COMMA')}" ></h1>
+        <a class="lead">Total Confirmed : </a>
+        <a class="lead text-danger ont-weight-bold" th:text="${#numbers.formatInteger(allTotalCases,3,'COMMA')}" ></a>
+<!--        <a class="lead">New Confirmed : </a>-->
+<!--        <a class="lead text-danger" th:text="${#numbers.formatInteger(allTotalNewCases,3,'COMMA')}" ></a>-->
+        &nbsp;<a class="lead">Recovered : </a>
+        <a class="lead text-success ont-weight-bold" th:text="${#numbers.formatInteger(allTotalRecoveredCases,3,'COMMA')}" ></a>
+        <hr class="my-4">
+<!--        <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>-->
+        <form class="form-inline">
+            <!-- Search form -->
+            <input class="form-control" type="text" placeholder="Search" aria-label="Search" onkeyup="myFunction()" id="myInput">
+<!--            <input class="form-control mr-sm-1" type="search" placeholder="Search" aria-label="Search" onkeyup="myFunction()" id="myInput">-->
+        </form>
+    </div>
+    <div class="table-responsive">
+    <table class="table table-hover" id="myTable">
+        <thead class="thead-dark">
+        <tr>
+            <th><a href="#" onclick="sortTable(0)" class="text-light">Country</a></th>
+<!--            <th><a href="#" onclick="sortTable(1)" class="text-light">State</a></th>-->
+            <th><a href="#" onclick="sortTable(1)" class="text-light">Confirmed</a></th>
+            <th><a href="#" onclick="sortTable(2)" class="text-light">New Cases</a></th>
+            <th><a href="#" onclick="sortTable(3)" class="text-light">Critical</a></th>
+            <th><a href="#" onclick="sortTable(4)" class="text-light">Deaths</a></th>
+            <th><a href="#" onclick="sortTable(5)" class="text-light">New Deaths</a></th>
+            <th><a href="#" onclick="sortTable(6)" class="text-light">Recovered</a></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="stats : ${statsList}" th:classappend="${stats.totalCases == 0 || (stats.totalCases-stats.totalRecoveredCases) == 0 ? 'table-success' : ''}" >
+            <td th:text="${stats.country}"></td>
+<!--            <td th:text="${stats.state}"></td>-->
+            <td th:text="${stats.totalCases}"></td>
+            <td th:text="${stats.newCases}"></td>
+            <td th:text="${stats.criticalCases}"></td>
+            <td th:text="${stats.totalDeathCases}" th:classappend="${stats.totalDeathCases == 0 ? '' : 'text-danger'}"></td>
+            <td th:text="${stats.newDeathCases}" th:classappend="${stats.totalDeathCases == 0 ? '' : 'bg-danger text-white'}"></td>
+            <td th:text="${stats.totalRecoveredCases}" th:classappend="${stats.totalRecoveredCases==0?'':'text-success'}"></td>
+        </tr>
+        </tbody>
+    </table>
+    </div>
+</body>
+</html>
