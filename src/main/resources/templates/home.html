@@ -146,13 +146,13 @@
         </thead>
         <tbody>
         <tr th:each="stats : ${statsList}" th:classappend="${stats.totalCases == 0 || (stats.totalCases-stats.totalRecoveredCases) == 0 ? 'table-success' : ''}" >
-            <td th:text="${stats.country}"></td>
+            <td th:text="${stats.country}" width="100"></td>
 <!--            <td th:text="${stats.state}"></td>-->
             <td th:text="${stats.totalCases}"></td>
-            <td th:text="${stats.newCases}"></td>
-            <td th:text="${stats.criticalCases}"></td>
+            <td th:text="${stats.newCases==0 ? '' : '+'} + ${stats.newCases}"></td>
+            <td th:text="${stats.criticalCases}" th:classappend="${stats.criticalCases == 0 ? '' : 'bg-warning text-dark'}"></td>
             <td th:text="${stats.totalDeathCases}" th:classappend="${stats.totalDeathCases == 0 ? '' : 'text-danger'}"></td>
-            <td th:text="${stats.newDeathCases}" th:classappend="${stats.totalDeathCases == 0 ? '' : 'bg-danger text-white'}"></td>
+            <td th:text="${stats.newDeathCases==0 ? '':'+'} + ${stats.newDeathCases}" th:classappend="${stats.newDeathCases == 0 ? '' : 'bg-danger text-white'}"></td>
             <td th:text="${stats.totalRecoveredCases}" th:classappend="${stats.totalRecoveredCases==0?'':'text-success'}"></td>
         </tr>
         </tbody>
