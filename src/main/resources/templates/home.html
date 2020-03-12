@@ -145,7 +145,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="stats : ${statsList}" th:classappend="${stats.totalCases == 0 || (stats.totalCases-stats.totalRecoveredCases) == 0 ? 'table-success' : ''}" >
+        <tr th:each="stats : ${statsList}" th:classappend="${stats.totalCases == 0 || (stats.totalCases-stats.totalRecoveredCases) == 0 ? 'table-success' : ''}">
             <td th:text="${stats.country}" width="100"></td>
 <!--            <td th:text="${stats.state}"></td>-->
             <td th:text="${stats.totalCases}"></td>

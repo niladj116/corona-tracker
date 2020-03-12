@@ -1,6 +1,7 @@
 package com.homelink.coronatracker.controllers;
 
 import com.homelink.coronatracker.model.LocationStats;
+import com.homelink.coronatracker.services.CoronaRapidAPIServices;
 import com.homelink.coronatracker.services.CoronaVirusTrackerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,17 +13,33 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @Controller
 public class HomeController {
     @Autowired
     CoronaVirusTrackerService service;
+    @Autowired
+    CoronaRapidAPIServices rapidAPIServices;
 
     @GetMapping("/")
     public String landingController(Model model, @RequestParam("id") Optional<Integer> id) {
-        model.addAttribute("statsList",service.fetchVirusData());
-        LocationStats summaryStats = service.getSummaryData();
+        System.out.println("ClandingController...");
+        List<LocationStats> statsList = rapidAPIServices.getDetailedData();
+        LocationStats summaryStats = statsList.stream().reduce(new LocationStats(), (s1,s2) -> {
+            s1.setTotalCases(s1.getTotalCases()+s2.getTotalCases());
+            s1.setTotalDeathCases(s1.getTotalDeathCases()+s2.getTotalDeathCases());
+            s1.setTotalRecoveredCases(s1.getTotalRecoveredCases()+s2.getTotalRecoveredCases());
+            return s1;
+        });
+
+        if(statsList != null && statsList.size() == 0) {
+            statsList = service.getDetailedData();
+            summaryStats = service.getSummaryData();
+        }
+
+        model.addAttribute("statsList",statsList);
         model.addAttribute("allTotalCases",summaryStats.getTotalCases());
         model.addAttribute("allTotalDeathCases",summaryStats.getTotalDeathCases());
         model.addAttribute("allTotalRecoveredCases",summaryStats.getTotalRecoveredCases());

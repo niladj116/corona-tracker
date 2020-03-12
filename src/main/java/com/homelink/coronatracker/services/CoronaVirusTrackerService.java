@@ -28,7 +28,7 @@ public class CoronaVirusTrackerService {
     public static String HTTPS_RECOVERED_URL = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Recovered.csv";
 
     List<LocationStats> finalList = new ArrayList<>();
-        @PostConstruct
+//        @PostConstruct
 //    @Scheduled(cron = "* * 1 * * *")
     public List<LocationStats> fetchVirusData() {
 
@@ -36,12 +36,17 @@ public class CoronaVirusTrackerService {
         }
 
 
+
+
+
     public LocationStats getSummaryData() {
         LocationStats summary = new LocationStats();
         HttpsClient client = new HttpsClient();
         JsonParser parser = JsonParserFactory.getJsonParser();
+        HashMap<String, String> requestProperties = new HashMap<>();
+        requestProperties.put("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:25.0) Gecko/20100101 Firefox/25.0");
         try {
-            BufferedReader reader = client.getContent(SUMMARY_CORONA_REPORT_URL);
+            BufferedReader reader = client.getContent(SUMMARY_CORONA_REPORT_URL, requestProperties);
             Map<String,?> map = parser.parseMap(reader.readLine());
             summary.setTotalCases((Integer) map.get("cases"));
             summary.setTotalDeathCases((Integer) map.get("deaths"));
@@ -58,8 +63,10 @@ public class CoronaVirusTrackerService {
         List<LocationStats> sortedList = new ArrayList<>();
         HttpsClient client = new HttpsClient();
         JsonParser parser = JsonParserFactory.getJsonParser();
+        HashMap<String, String> requestProperties = new HashMap<>();
+        requestProperties.put("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:25.0) Gecko/20100101 Firefox/25.0");
         try {
-            BufferedReader reader = client.getContent(DETAILED_CORONA_REPORT_URL);
+            BufferedReader reader = client.getContent(DETAILED_CORONA_REPORT_URL, requestProperties);
             parser.parseList(reader.readLine()).forEach(item ->
             {
                 Map<String ,?> map = (Map<String, ?>)item;
@@ -120,7 +127,7 @@ public class CoronaVirusTrackerService {
         HttpsClient client = new HttpsClient();
         try {
 
-            Reader in = client.getContent(HTTPS_CONFIRMED_URL);
+            Reader in = client.getContent(HTTPS_CONFIRMED_URL, null);
             Iterable<CSVRecord> records = CSVFormat.RFC4180.withFirstRecordAsHeader().parse(in);
             for (CSVRecord record : records) {
                 LocationStats locationStats = new LocationStats(
@@ -145,7 +152,7 @@ public class CoronaVirusTrackerService {
         HttpsClient client = new HttpsClient();
         try {
 
-            Reader in = client.getContent(HTTPS_DEATH_URL);
+            Reader in = client.getContent(HTTPS_DEATH_URL, null);
             Iterable<CSVRecord> records = CSVFormat.RFC4180.withFirstRecordAsHeader().parse(in);
             for (CSVRecord record : records) {
                 LocationStats locationStats = new LocationStats(
@@ -171,7 +178,7 @@ public class CoronaVirusTrackerService {
         HttpsClient client = new HttpsClient();
         try {
 
-            Reader in = client.getContent(HTTPS_RECOVERED_URL);
+            Reader in = client.getContent(HTTPS_RECOVERED_URL, null);
             Iterable<CSVRecord> records = CSVFormat.RFC4180.withFirstRecordAsHeader().parse(in);
             for (CSVRecord record : records) {
                 LocationStats locationStats = new LocationStats(
