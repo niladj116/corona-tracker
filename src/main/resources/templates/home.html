@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
     <title>Corona Virus Report</title>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
 
         function myFunction() {
@@ -106,7 +107,42 @@
                 classes: value.trim() == 0 ? 'yes' : 'no'
             };
         }
+
+        // Load google charts
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        // Draw the chart and set the chart values
+        function drawChart() {
+          var chartData = [];
+          chartData.push(['Country','Confirmed Cases']);
+          table = document.getElementById("myTable");
+          tr = table.getElementsByTagName("tr");
+
+          // Loop through all table rows,
+          for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            td1 = tr[i].getElementsByTagName("td")[1];
+            if (td || td1) {
+              var txtValue = td.textContent || td.innerText;
+              var txtValue1 = td1.textContent || td1.innerText;
+              chartData.push([txtValue,parseInt(txtValue1)]);
+            }
+
+          }
+         alert(chartData);
+          var data = google.visualization.arrayToDataTable(chartData);
+
+          // Optional; add a title and set the width and height of the chart
+          var options = {'title':'Confirmed Cases', 'width':550, 'height':400};
+
+          // Display the chart inside the <div> element with id="piechart"
+          var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+          chart.draw(data, options);
+        }
     </script>
+
+
 
 </head>
 <body>
@@ -123,6 +159,7 @@
         &nbsp;<a class="lead">Recovered : </a>
         <a class="lead text-success ont-weight-bold" th:text="${#numbers.formatInteger(allTotalRecoveredCases,3,'COMMA')}" ></a>
         <hr class="my-4">
+        <div id="piechart"></div>
 <!--        <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>-->
         <form class="form-inline">
             <!-- Search form -->
