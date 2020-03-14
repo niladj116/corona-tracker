@@ -1,4 +1,4 @@
-        function myFunction() {
+        function searchFunction() {
           // Declare variables
           var input, filter, table, tr, td, i, txtValue;
           input = document.getElementById("myInput");
@@ -22,8 +22,8 @@
           }
         }
 
-        function sortTable(n, dataType) {
-          var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+        function sortTable(n) {
+          var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0, v1, v2;
           table = document.getElementById("myTable");
           switching = true;
           // Set the sorting direction to ascending:
@@ -45,36 +45,32 @@
               y = rows[i + 1].getElementsByTagName("TD")[n];
               /* Check if the two rows should switch place,
               based on the direction, asc or desc: */
+
+
+              if (isNaN(x.innerHTML) || isNaN(y.innerHTML)) {
+                v1 = x.innerHTML.toLowerCase();
+                v2= y.innerHTML.toLowerCase();
+              } else {
+                v1 = parseInt(x.innerHTML);
+                v2= parseInt(y.innerHTML);
+              }
+
               if (dir == "asc") {
-                /* Compare numbers if the dataType = 'num'*/
-                if(dataType == 'num') {
-                    if (parseInt(x.innerHTML) > parseInt(y.innerHTML)) {
-                      // If so, mark as a switch and break the loop:
-                      shouldSwitch = true;
-                      break;
-                    }
-                } else {
-                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-                      // If so, mark as a switch and break the loop:
-                      shouldSwitch = true;
-                      break;
-                    }
+                //if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                if (v1 > v2) {
+                  // If so, mark as a switch and break the loop:
+                  shouldSwitch = true;
+                  break;
                 }
               } else if (dir == "desc") {
-                if(dataType == 'num') {
-                    if (parseInt(x.innerHTML) < parseInt(y.innerHTML)) {
-                      // If so, mark as a switch and break the loop:
-                      shouldSwitch = true;
-                      break;
-                    }
-                } else {
-                    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-                      // If so, mark as a switch and break the loop:
-                      shouldSwitch = true;
-                      break;
-                    }
+                //if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                if (v1 < v2) {
+                  // If so, mark as a switch and break the loop:
+                  shouldSwitch = true;
+                  break;
                 }
               }
+            }
             if (shouldSwitch) {
               /* If a switch has been marked, make the switch
               and mark that a switch has been done: */
@@ -90,11 +86,62 @@
                 switching = true;
               }
             }
-            }
           }
         }
+
         function cellStyle(value, row, index) {
             return {
                 classes: value.trim() == 0 ? 'yes' : 'no'
             };
+        }
+
+        // Load google charts
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        // Draw the chart and set the chart values
+        function drawChart() {
+          var chartData = [];
+          chartData.push(['Country','Confirmed Cases']);
+          table = document.getElementById("myTable");
+          tr = table.getElementsByTagName("tr");
+          var others = 0;
+
+          // Loop through all table rows,
+          for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            td1 = tr[i].getElementsByTagName("td")[1];
+            if (td || td1) {
+              var txtValue = td.textContent || td.innerText;
+              var txtValue1 = td1.textContent || td1.innerText;
+              if(parseInt(txtValue1) > 1000)
+                chartData.push([txtValue,parseInt(txtValue1)]);
+              else
+                 others += parseInt(txtValue1);
+            }
+
+          }
+          chartData.push(['Others', others]);
+          var data = google.visualization.arrayToDataTable(chartData);
+
+          // Optional; add a title and set the width and height of the chart
+          var options = {'title':'Confirmed Cases', 'width':550, 'height':400};
+
+          // Display the chart inside the <div> element with id="piechart"
+          var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+          chart.draw(data, options);
+        }
+        function goToDetails(event) {
+            //alert(event.currentTarget.innerText);
+            var str = event.currentTarget.innerText;
+            var arr = str.split("/\s+/");
+            for (i = 0; i < arr.length; i++) {
+                console.log(arr[i]);
+            }
+
+            window.location.replace("/?id=" + arr[0]);
+        }
+
+        function goBackToHome(event) {
+            window.location.replace("/");
         }

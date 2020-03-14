@@ -4,8 +4,41 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <title>Details</title>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="/js/home.js"></script>
 </head>
 <body>
-<button type="button" class="btn btn-dark" onclick="window.history.back();"> < Go Back</button>
+<div id="piechart"></div>
+<button type="button" class="btn btn-dark" onclick="goBackToHome(event)"> < Go Back</button>
+
+<div class="table-responsive">
+    <table class="table table-hover" id="myTable">
+        <thead class="thead-dark">
+        <tr>
+            <th><a href="#" onclick="sortTable(0)" class="text-light">Country</a></th>
+            <!--            <th><a href="#" onclick="sortTable(1)" class="text-light">State</a></th>-->
+            <th><a href="#" onclick="sortTable(1)" class="text-light">Confirmed</a></th>
+            <th><a href="#" onclick="sortTable(2)" class="text-light">New Cases</a></th>
+            <th><a href="#" onclick="sortTable(3)" class="text-light">Critical</a></th>
+            <th><a href="#" onclick="sortTable(4)" class="text-light">Deaths</a></th>
+            <th><a href="#" onclick="sortTable(5)" class="text-light">New Deaths</a></th>
+            <th><a href="#" onclick="sortTable(6)" class="text-light">Recovered</a></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="stats : ${statsList}" th:classappend="${stats.totalCases == 0 || (stats.totalCases-stats.totalRecoveredCases) == 0 ? 'table-success' : ''}">
+            <td th:text="${stats.country}" width="100"></td>
+            <!--            <td th:text="${stats.state}"></td>-->
+            <td th:text="${stats.totalCases}"></td>
+            <td th:text="${stats.newCases==0 ? '' : '+'} + ${stats.newCases}"></td>
+            <td th:text="${stats.criticalCases}" th:classappend="${stats.criticalCases == 0 ? '' : 'bg-warning text-dark'}"></td>
+            <td th:text="${stats.totalDeathCases}" th:classappend="${stats.totalDeathCases == 0 ? '' : 'text-danger'}"></td>
+            <td th:text="${stats.newDeathCases==0 ? '':'+'} + ${stats.newDeathCases}" th:classappend="${stats.newDeathCases == 0 ? '' : 'bg-danger text-white'}"></td>
+            <td th:text="${stats.totalRecoveredCases}" th:classappend="${stats.totalRecoveredCases==0?'':'text-success'}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
 </body>
 </html>

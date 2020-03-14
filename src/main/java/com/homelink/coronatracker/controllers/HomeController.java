@@ -9,10 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -24,8 +21,18 @@ public class HomeController {
     CoronaRapidAPIServices rapidAPIServices;
 
     @GetMapping("/")
-    public String landingController(Model model, @RequestParam("id") Optional<Integer> id) {
-        System.out.println("ClandingController...");
+    public String landingController(Model model, @RequestParam("id") Optional<String> id) {
+        System.out.println("ClandingController..." + id);
+        if (id.isPresent()) {
+            String arr [] = id.get().split(",");
+            model.addAttribute("country",arr[0]);
+            model.addAttribute("confirmed",arr[1]);
+            model.addAttribute("total",arr[2]);
+            model.addAttribute("new",arr[3]);
+            model.addAttribute("death",arr[4]);
+            model.addAttribute("newDeath",arr[5]);
+            return "details";
+        }
         List<LocationStats> statsList = rapidAPIServices.getDetailedData();
         LocationStats summaryStats = statsList.stream().reduce(new LocationStats(), (s1,s2) -> {
             s1.setTotalCases(s1.getTotalCases()+s2.getTotalCases());
@@ -43,6 +50,7 @@ public class HomeController {
         model.addAttribute("allTotalCases",summaryStats.getTotalCases());
         model.addAttribute("allTotalDeathCases",summaryStats.getTotalDeathCases());
         model.addAttribute("allTotalRecoveredCases",summaryStats.getTotalRecoveredCases());
+
         return "home";
     }
 

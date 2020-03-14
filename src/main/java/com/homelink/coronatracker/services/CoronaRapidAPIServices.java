@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 public class CoronaRapidAPIServices {
 
     public static String DETAILED_CORONA_REPORT_URL = "https://coronavirus-monitor.p.rapidapi.com/coronavirus/cases_by_country.php";
+//    https://covid-19-coronavirus-statistics.p.rapidapi.com/v1/stats
 //    @Scheduled(cron = "1 * * * * *")
     public List<LocationStats> getDetailedData() {
         System.out.println("CoronaRapidAPIServices -> getDetailedData...");
