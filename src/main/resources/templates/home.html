@@ -21,17 +21,13 @@
             <h1 class="display-4 text-danger" th:text="${#numbers.formatInteger(allTotalDeathCases,3,'COMMA')}" ></h1>
         <a class="lead">Total Confirmed : </a>
         <a class="lead text-danger ont-weight-bold" th:text="${#numbers.formatInteger(allTotalCases,3,'COMMA')}" ></a>
-<!--        <a class="lead">New Confirmed : </a>-->
-<!--        <a class="lead text-danger" th:text="${#numbers.formatInteger(allTotalNewCases,3,'COMMA')}" ></a>-->
         &nbsp;<a class="lead">Recovered : </a>
         <a class="lead text-success ont-weight-bold" th:text="${#numbers.formatInteger(allTotalRecoveredCases,3,'COMMA')}" ></a>
         <hr class="my-4">
 
-<!--        <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>-->
         <form class="form-inline">
             <!-- Search form -->
-            <input class="form-control" type="text" placeholder="Search" aria-label="Search" onkeyup="myFunction()" id="myInput">
-<!--            <input class="form-control mr-sm-1" type="search" placeholder="Search" aria-label="Search" onkeyup="myFunction()" id="myInput">-->
+            <input class="form-control" type="text" placeholder="Search" aria-label="Search" onkeyup="searchFunction()" id="myInput">
         </form>
     </div>
     <div id="info"></div>
@@ -40,7 +36,6 @@
         <thead class="thead-dark">
         <tr>
             <th><a href="#" onclick="sortTable(0)" class="text-light">Country</a></th>
-<!--            <th><a href="#" onclick="sortTable(1)" class="text-light">State</a></th>-->
             <th><a href="#" onclick="sortTable(1)" class="text-light">Confirmed</a></th>
             <th><a href="#" onclick="sortTable(2)" class="text-light">New Cases</a></th>
             <th><a href="#" onclick="sortTable(3)" class="text-light">Critical</a></th>
@@ -53,7 +48,6 @@
         <tr th:each="stats : ${statsList}" th:classappend="${stats.totalCases == 0 || (stats.totalCases-stats.totalRecoveredCases) == 0 ? 'table-success' : ''}"
             onclick="goToDetails(event)">
             <td th:text="${stats.country}" width="100"></td>
-<!--            <td th:text="${stats.state}"></td>-->
             <td th:text="${stats.totalCases}"></td>
             <td th:text="${stats.newCases==0 ? '' : '+'} + ${stats.newCases}"></td>
             <td th:text="${stats.criticalCases}" th:classappend="${stats.criticalCases == 0 ? '' : 'bg-warning text-dark'}"></td>
