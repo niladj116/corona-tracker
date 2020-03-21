@@ -24,13 +24,13 @@ public class HomeController {
     public String landingController(Model model, @RequestParam("id") Optional<String> id) {
         System.out.println("ClandingController..." + id);
         if (id.isPresent()) {
-            String arr [] = id.get().split(",");
-            model.addAttribute("country",arr[0]);
-            model.addAttribute("confirmed",arr[1]);
-            model.addAttribute("total",arr[2]);
-            model.addAttribute("new",arr[3]);
-            model.addAttribute("death",arr[4]);
-            model.addAttribute("newDeath",arr[5]);
+//            String arr [] = id.get().split(",");
+//            model.addAttribute("country",arr[0]);
+//            model.addAttribute("confirmed",arr[1]);
+//            model.addAttribute("total",arr[2]);
+//            model.addAttribute("new",arr[3]);
+//            model.addAttribute("death",arr[4]);
+//            model.addAttribute("newDeath",arr[5]);
             return "details";
         }
         List<LocationStats> statsList = rapidAPIServices.getDetailedData();

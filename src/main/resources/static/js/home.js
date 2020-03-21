@@ -95,6 +95,18 @@
             };
         }
 
+        function goToDetails(event) {
+            //alert(event.currentTarget.innerText);
+            var str = event.currentTarget.innerText;
+            var arr = str.split("/\s+/");
+            for (i = 0; i < arr.length; i++) {
+                console.log(arr[i]);
+            }
+
+            window.location.replace("/?id=" + arr[0]);
+        }
+
+/*
         // Load google charts
         google.charts.load('current', {'packages':['corechart']});
         google.charts.setOnLoadCallback(drawChart);
@@ -131,17 +143,5 @@
           var chart = new google.visualization.PieChart(document.getElementById('piechart'));
           chart.draw(data, options);
         }
-        function goToDetails(event) {
-            //alert(event.currentTarget.innerText);
-            var str = event.currentTarget.innerText;
-            var arr = str.split("/\s+/");
-            for (i = 0; i < arr.length; i++) {
-                console.log(arr[i]);
-            }
 
-            window.location.replace("/?id=" + arr[0]);
-        }
-
-        function goBackToHome(event) {
-            window.location.replace("/");
-        }
+*/

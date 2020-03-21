@@ -3,18 +3,19 @@
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
+    <meta name="viewport"  content="width=device-width, initial-scale=1, shrink-to-fit=yes">
+    <meta name="description"  content="COVID-19 - Novel Corona Virus Live Report | Global Statistics by Countries">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <script data-ad-client="ca-pub-7654250176015976" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-    <title>Corona Virus Report</title>
+    <title>COVID-19 - Novel Corona Virus Live Report</title>
 
     <script type="text/javascript" src="/js/home.js"></script>
 
 </head>
 <body>
 <div class="container">
-    <h2>Corona Virus Tracker</h2>
+    <h2>COVID-19 - Live Report</h2>
 
     <div class="jumbotron">
         <a>Total Deaths : </a>
@@ -35,18 +36,20 @@
     <table class="table table-hover" id="myTable">
         <thead class="thead-dark">
         <tr>
-            <th><a href="#" onclick="sortTable(0)" class="text-light">Country</a></th>
-            <th><a href="#" onclick="sortTable(1)" class="text-light">Confirmed</a></th>
-            <th><a href="#" onclick="sortTable(2)" class="text-light">New Cases</a></th>
-            <th><a href="#" onclick="sortTable(3)" class="text-light">Critical</a></th>
-            <th><a href="#" onclick="sortTable(4)" class="text-light">Deaths</a></th>
-            <th><a href="#" onclick="sortTable(5)" class="text-light">New Deaths</a></th>
-            <th><a href="#" onclick="sortTable(6)" class="text-light">Recovered</a></th>
+            <th><a href="#" class="text-light"><img th:src="@{/country/flag.png}" width="20"></a></th>
+            <th><a href="#" onclick="sortTable(1)" class="text-light">Country</a></th>
+            <th><a href="#" onclick="sortTable(2)" class="text-light">Confirmed</a></th>
+            <th><a href="#" onclick="sortTable(3)" class="text-light">New Cases</a></th>
+            <th><a href="#" onclick="sortTable(4)" class="text-light">Critical</a></th>
+            <th><a href="#" onclick="sortTable(5)" class="text-light">Deaths</a></th>
+            <th><a href="#" onclick="sortTable(6)" class="text-light">New Deaths</a></th>
+            <th><a href="#" onclick="sortTable(7)" class="text-light">Recovered</a></th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="stats : ${statsList}" th:classappend="${stats.totalCases == 0 || (stats.totalCases-stats.totalRecoveredCases) == 0 ? 'table-success' : ''}"
             onclick="goToDetails(event)">
+            <td><img th:src="@{/country/{code}.png (code=${stats.countryCode})}" width="20"></td>
             <td th:text="${stats.country}" width="100"></td>
             <td th:text="${stats.totalCases}"></td>
             <td th:text="${stats.newCases==0 ? '' : '+'} + ${stats.newCases}"></td>

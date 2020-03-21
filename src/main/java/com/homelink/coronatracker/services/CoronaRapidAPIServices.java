@@ -1,6 +1,7 @@
 package com.homelink.coronatracker.services;
 
 import com.homelink.coronatracker.connection.HttpsClient;
+import com.homelink.coronatracker.model.Countries;
 import com.homelink.coronatracker.model.LocationStats;
 import org.springframework.boot.json.JsonParser;
 import org.springframework.boot.json.JsonParserFactory;
@@ -36,6 +37,12 @@ public class CoronaRapidAPIServices {
                 Map<String ,String> map = (Map<String, String>)item;
                 LocationStats locationStats = new LocationStats();
                 locationStats.setCountry((String) map.get("country_name"));
+                String code = Countries.doubleBraceMap.get(String.valueOf(map.get("country_name")).toLowerCase());
+                if (code != null)
+                    locationStats.setCountryCode(code);
+                else
+                    locationStats.setCountryCode(Countries.doubleBraceMap.get("default"));
+
                 locationStats.setTotalCases(Integer.parseInt(map.get("cases").replace(",","")));
                 locationStats.setNewCases(Integer.parseInt(map.get("new_cases").replace(",","")));
                 locationStats.setTotalDeathCases(Integer.parseInt(map.get("deaths").replace(",","")));

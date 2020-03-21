@@ -3,6 +3,7 @@ package com.homelink.coronatracker.model;
 public class LocationStats {
 
     private String stateCountryKey;
+    private String countryCode;
     private String state;
     private String country;
     private int totalCases;
@@ -37,6 +38,14 @@ public class LocationStats {
 
     public void setCriticalCases(int criticalCases) {
         this.criticalCases = criticalCases;
+    }
+
+    public String getCountryCode() {
+        return countryCode;
+    }
+
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
     }
 
     public String getStateCountryKey() {
