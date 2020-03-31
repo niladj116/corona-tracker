@@ -96,16 +96,23 @@
         }
 
         function goToDetails(event) {
-            //alert(event.currentTarget.innerText);
-            var str = event.currentTarget.innerText;
-            var arr = str.split("/\s+/");
-            for (i = 0; i < arr.length; i++) {
-                console.log(arr[i]);
+            var countryParam = event.currentTarget.children[1].innerText;
+            var newCasesTodayParam = event.currentTarget.children[3].innerText;
+            var newDeathTodayParam = event.currentTarget.children[6].innerText;
+            var todayRecoveredParam = event.currentTarget.children[7].innerText;
+
+            var param;
+            for(var v in country) {
+                if(v == countryParam) {
+                    param = country[v]+","+newCasesTodayParam+","+newDeathTodayParam+","+todayRecoveredParam;
+                    break;
+                }
             }
-
-            window.location.replace("/?id=" + arr[0]);
+            window.location.replace("details/?id=" + param);
         }
-
+        $('#myModal').on('shown.bs.modal', function () {
+          $('#myInput').trigger('focus')
+        })
 /*
         // Load google charts
         google.charts.load('current', {'packages':['corechart']});
@@ -145,3 +152,4 @@
         }
 
 */
+

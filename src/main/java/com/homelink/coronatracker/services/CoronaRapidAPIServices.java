@@ -18,12 +18,18 @@ import java.util.stream.Collectors;
 public class CoronaRapidAPIServices {
 
     public static String DETAILED_CORONA_REPORT_URL = "https://coronavirus-monitor.p.rapidapi.com/coronavirus/cases_by_country.php";
+    public static String DETAILED_BY_COUNTRY_REPORT_URL = "https://covid-19-coronavirus-statistics.p.rapidapi.com/v1/stats";
 //    https://covid-19-coronavirus-statistics.p.rapidapi.com/v1/stats
-//    @Scheduled(cron = "1 * * * * *")
+
+
+    List<LocationStats> sortedList = new ArrayList<>();
+
+    @PostConstruct
+//    @Scheduled(cron = "* * 0 ? * *")
     public List<LocationStats> getDetailedData() {
-        System.out.println("CoronaRapidAPIServices -> getDetailedData...");
+        List<LocationStats> sortedList = this.sortedList;
+//        System.out.println("CoronaRapidAPIServices -> getDetailedData...");
         List<LocationStats> stats = new ArrayList<>();
-        List<LocationStats> sortedList = new ArrayList<>();
         HttpsClient client = new HttpsClient();
         JsonParser parser = JsonParserFactory.getJsonParser();
         HashMap<String, String> requestProperties = new HashMap<>();
@@ -37,6 +43,7 @@ public class CoronaRapidAPIServices {
                 Map<String ,String> map = (Map<String, String>)item;
                 LocationStats locationStats = new LocationStats();
                 locationStats.setCountry((String) map.get("country_name"));
+//                System.out.println(locationStats.getCountry());
                 String code = Countries.doubleBraceMap.get(String.valueOf(map.get("country_name")).toLowerCase());
                 if (code != null)
                     locationStats.setCountryCode(code);
@@ -51,7 +58,7 @@ public class CoronaRapidAPIServices {
                 locationStats.setCriticalCases(Integer.parseInt(map.get("serious_critical").replace(",","")));
                 stats.add(locationStats);
             });
-            sortedList = stats.stream().sorted(Comparator.comparing(LocationStats::getTotalDeathCases).reversed()).collect(Collectors.toList());
+            sortedList = stats.stream().sorted(Comparator.comparing(LocationStats::getTotalCases).reversed()).collect(Collectors.toList());
         } catch (IOException e) {
             e.printStackTrace();
         }

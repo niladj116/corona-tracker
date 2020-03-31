@@ -50,6 +50,7 @@ public class Countries {
         put("cocos (keeling) islands", "cc");
         put("congo, the democratic republic of the", "cd");
         put("drc", "cd");
+        put("car", "cf");
         put("central african republic", "cf");
         put("congo", "cg");
         put("switzerland", "ch");
@@ -145,6 +146,7 @@ public class Countries {
         put("cayman islands", "ky");
         put("channel islands", "ky");
         put("kazakhstan", "kz");
+        put("laos", "la");
         put("lao peoples democratic republic", "la");
         put("lebanon", "lb");
         put("saint lucia", "lc");
@@ -236,9 +238,11 @@ public class Countries {
         put("sint maarten (dutch part)", "sx");
         put("sint maarten", "sx");
         put("syrian arab republic", "sy");
+        put("syria", "sy");
         put("swaziland", "sz");
         put("eswatini", "sz");
         put("turks and caicos islands", "tc");
+        put("turks and caicos", "tc");
         put("chad", "td");
         put("french southern territories", "tf");
         put("togo", "tg");
@@ -259,6 +263,7 @@ public class Countries {
         put("uganda", "ug");
         put("us minor outlying islands", "um");
         put("usa", "us");
+        put("us", "us");
         put("uruguay", "uy");
         put("uzbekistan", "uz");
         put("holy see (vatican city state)", "va");
@@ -267,6 +272,7 @@ public class Countries {
         put("st. vincent grenadines", "vc");
         put("venezuela, bolivarian republic of", "ve");
         put("venezuela", "ve");
+        put("british virgin islands", "vg");
         put("virgin islands, british", "vg");
         put("virgin islands, u.s.", "vi");
         put("u.s. virgin islands", "vi");

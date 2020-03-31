@@ -5,25 +5,33 @@
     <meta charset="utf-8">
     <meta name="viewport"  content="width=device-width, initial-scale=1, shrink-to-fit=yes">
     <meta name="description"  content="COVID-19 - Novel Corona Virus Live Report | Global Statistics by Countries">
+    <meta http-equiv="refresh" content="60"/>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <script data-ad-client="ca-pub-7654250176015976" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-    <title>COVID-19 - Novel Corona Virus Live Report</title>
 
+    <title>COVID-19 - Novel Corona Virus Current Report</title>
+
+    <script data-ad-client="ca-pub-7654250176015976" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script type="text/javascript" src="/js/country.js"></script>
     <script type="text/javascript" src="/js/home.js"></script>
 
 </head>
 <body>
 <div class="container">
-    <h2>COVID-19 - Live Report</h2>
+    <h2>COVID-19 - Current Report</h2>
 
     <div class="jumbotron">
         <a>Total Deaths : </a>
-            <h1 class="display-4 text-danger" th:text="${#numbers.formatInteger(allTotalDeathCases,3,'COMMA')}" ></h1>
+        <h1 class="display-4 text-danger" th:text="${#numbers.formatInteger(allTotalDeathCases,3,'COMMA')}" ></h1>
         <a class="lead">Total Confirmed : </a>
         <a class="lead text-danger ont-weight-bold" th:text="${#numbers.formatInteger(allTotalCases,3,'COMMA')}" ></a>
         &nbsp;<a class="lead">Recovered : </a>
         <a class="lead text-success ont-weight-bold" th:text="${#numbers.formatInteger(allTotalRecoveredCases,3,'COMMA')}" ></a>
+<!--        <a class="lead" href="#" onclick="location.reload()"><img th:src="@{/images/refresh.png}" width="15" align="middle"/></a>-->
+<!--        <button class="btn btn-primary" type="button" onclick="location.reload()">-->
+<!--            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>-->
+<!--            Loading...-->
+<!--        </button>-->
         <hr class="my-4">
 
         <form class="form-inline">
@@ -49,11 +57,11 @@
         <tbody>
         <tr th:each="stats : ${statsList}" th:classappend="${stats.totalCases == 0 || (stats.totalCases-stats.totalRecoveredCases) == 0 ? 'table-success' : ''}"
             onclick="goToDetails(event)">
-            <td><img th:src="@{/country/{code}.png (code=${stats.countryCode})}" width="20"></td>
+            <td><img th:src="@{/country/{code}.png (code=${stats.countryCode})}" width="20" th:classappend="shadow-sm"></td>
             <td th:text="${stats.country}" width="100"></td>
             <td th:text="${stats.totalCases}"></td>
-            <td th:text="${stats.newCases==0 ? '' : '+'} + ${stats.newCases}"></td>
-            <td th:text="${stats.criticalCases}" th:classappend="${stats.criticalCases == 0 ? '' : 'bg-warning text-dark'}"></td>
+            <td th:text="${stats.newCases==0 ? '' : '+'} + ${stats.newCases}" th:classappend="${stats.newCases == 0 ? '' : 'bg-warning text-dark'}"></td>
+            <td th:text="${stats.criticalCases}" th:classappend="${stats.criticalCases == 0 ? '' : 'text-warning'}"></td>
             <td th:text="${stats.totalDeathCases}" th:classappend="${stats.totalDeathCases == 0 ? '' : 'text-danger'}"></td>
             <td th:text="${stats.newDeathCases==0 ? '':'+'} + ${stats.newDeathCases}" th:classappend="${stats.newDeathCases == 0 ? '' : 'bg-danger text-white'}"></td>
             <td th:text="${stats.totalRecoveredCases}" th:classappend="${stats.totalRecoveredCases==0?'':'text-success'}"></td>
