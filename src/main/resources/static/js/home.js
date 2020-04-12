@@ -5,7 +5,6 @@
         'mapsApiKey': 'AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY'
       });
       google.charts.setOnLoadCallback(drawRegionsMap);
-
       function drawRegionsMap() {
         var chartData = [];
         var table, tr, countryName, confirmed;
@@ -20,7 +19,8 @@
         var data = google.visualization.arrayToDataTable(chartData);
 
         var options = {
-//            colorAxis: {colors: ['#ff7373', '#ff4040', '#ad2323']}
+            domain: 'IN',
+            legend: 'none',
             colorAxis: {
                 values:[1, 10000, 50000, 100000, 500000],
                 colors:['fff2f2', 'ff5757', 'ff1c1c', '9e1313', '850000']
@@ -31,6 +31,7 @@
         var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
 
         chart.draw(data, options);
+        $('#loading').remove();
       }
 
         $(document).ready(function(){
