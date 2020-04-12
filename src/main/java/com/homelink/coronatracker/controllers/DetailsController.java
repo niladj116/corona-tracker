@@ -26,7 +26,7 @@ public class DetailsController {
     public String detailsController(Model model, @RequestParam("id") Optional<String> id) {
         System.out.println("Controller ID : " + id);
         if (id.isPresent()) {
-            String [] param = id.get().split(",");
+            String [] param = id.get().split(";");
             LocalDate localDate = LocalDate.now();
             String dateString = DateTimeFormatter.ofPattern("MM/dd/yy").format(localDate);
 //            System.out.println(dateString);     //07/15/2018

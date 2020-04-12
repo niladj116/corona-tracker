@@ -1,3 +1,46 @@
+      google.charts.load('current', {
+        'packages':['geochart'],
+        // Note: you will need to get a mapsApiKey for your project.
+        // See: https://developers.google.com/chart/interactive/docs/basic_load_libs#load-settings
+        'mapsApiKey': 'AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY'
+      });
+      google.charts.setOnLoadCallback(drawRegionsMap);
+
+      function drawRegionsMap() {
+        var chartData = [];
+        var table, tr, countryName, confirmed;
+        chartData.push(['Country', 'Confirmed']);
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+        for (i = 1; i < tr.length; i++) {
+            countryName = tr[i].getElementsByTagName("td")[1];
+            confirmed = tr[i].getElementsByTagName("td")[2];
+            chartData.push([country[countryName.innerText],  parseInt(confirmed.innerText)]);
+        }
+        var data = google.visualization.arrayToDataTable(chartData);
+
+        var options = {
+//            colorAxis: {colors: ['#ff7373', '#ff4040', '#ad2323']}
+            colorAxis: {
+                values:[1, 10000, 50000, 100000, 500000],
+                colors:['fff2f2', 'ff5757', 'ff1c1c', '9e1313', '850000']
+            }
+
+        };
+
+        var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
+
+        chart.draw(data, options);
+      }
+
+        $(document).ready(function(){
+          $("#myInput").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#countryTableBodyId tr").filter(function() {
+              $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+          });
+        });
         function searchFunction() {
           // Declare variables
           var input, filter, table, tr, td, i, txtValue;
@@ -104,52 +147,11 @@
             var param;
             for(var v in country) {
                 if(v == countryParam) {
-                    param = country[v]+","+newCasesTodayParam+","+newDeathTodayParam+","+todayRecoveredParam;
+                    param = country[v]+";"+newCasesTodayParam+";"+newDeathTodayParam+";"+todayRecoveredParam;
                     break;
                 }
             }
             window.location.replace("details/?id=" + param);
         }
-        $('#myModal').on('shown.bs.modal', function () {
-          $('#myInput').trigger('focus')
-        })
-/*
-        // Load google charts
-        google.charts.load('current', {'packages':['corechart']});
-        google.charts.setOnLoadCallback(drawChart);
 
-        // Draw the chart and set the chart values
-        function drawChart() {
-          var chartData = [];
-          chartData.push(['Country','Confirmed Cases']);
-          table = document.getElementById("myTable");
-          tr = table.getElementsByTagName("tr");
-          var others = 0;
-
-          // Loop through all table rows,
-          for (i = 0; i < tr.length; i++) {
-            td = tr[i].getElementsByTagName("td")[0];
-            td1 = tr[i].getElementsByTagName("td")[1];
-            if (td || td1) {
-              var txtValue = td.textContent || td.innerText;
-              var txtValue1 = td1.textContent || td1.innerText;
-              if(parseInt(txtValue1) > 1000)
-                chartData.push([txtValue,parseInt(txtValue1)]);
-              else
-                 others += parseInt(txtValue1);
-            }
-
-          }
-          chartData.push(['Others', others]);
-          var data = google.visualization.arrayToDataTable(chartData);
-
-          // Optional; add a title and set the width and height of the chart
-          var options = {'title':'Confirmed Cases', 'width':550, 'height':400};
-
-          // Display the chart inside the <div> element with id="piechart"
-          var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-          chart.draw(data, options);
-        }
-
-*/
 

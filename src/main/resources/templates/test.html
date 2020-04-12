@@ -1,0 +1,68 @@
+<html>
+<head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.load('visualization', '1', {'packages': ['geochart']});
+        google.setOnLoadCallback(drawVisualization);
+
+        function drawVisualization() {
+          var data = google.visualization.arrayToDataTable([
+            ['State', 'Confirmed'],
+            ['Andaman and Nicobar Islands',10],
+            ['Andhra Pradesh',149],
+            ['Arunachal Pradesh',1],
+            ['Assam',16],
+            ['Bihar',29],
+            ['Chandigarh',18],
+            ['Chhattisgarh',9],
+            ['Dadra and Nagar Haveli',0],
+            ['Daman and Diu',0],
+            ['Delhi',293],
+            ['Goa',5],
+            ['Gujarat',88],
+            ['Haryana',49],
+            ['Himachal Pradesh',6],
+            ['Jammu and Kashmir',70],
+            ['Jharkhand',2],
+            ['Karnataka',124],
+            ['Kerala',286],
+            ['Ladakh',13],
+            ['Lakshadweep',0],
+            ['Madhya Pradesh',107],
+            ['Maharashtra',423],
+            ['Manipur',2],
+            ['Meghalaya',0],
+            ['Mizoram',1],
+            ['Nagaland',0],
+            ['Odisha',5],
+            ['Puducherry',5],
+            ['Punjab',47],
+            ['Rajasthan',140],
+            ['Sikkim',0],
+            ['Tamil Nadu',309],
+            ['Telangana',154],
+            ['Tripura',0],
+            ['Uttar Pradesh',128],
+            ['Uttarakhand',10],
+            ['West Bengal',53]
+
+          ]);
+
+          var opts = {
+            region: 'IN',
+            displayMode: 'regions',
+            resolution: 'provinces',
+            width: 640,
+            height: 480
+          };
+          var geochart = new google.visualization.GeoChart(
+              document.getElementById('visualization'));
+          geochart.draw(data, opts);
+        };
+
+    </script>
+</head>
+<body>
+<div id="visualization" style="height: 450px;width=device-width"></div>
+</body>
+</html>

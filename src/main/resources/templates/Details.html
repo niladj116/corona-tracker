@@ -4,10 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport"  content="width=device-width, initial-scale=1, shrink-to-fit=yes">
     <meta name="description"  content="COVID-19 - Novel Corona Virus Live Report | Global Statistics by Countries">
-
     <title>COVID-19 - Novel Corona Virus Case Report</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">-->
+    <link rel="stylesheet" href="/bootstrap/bootstrap.min.css">
+
+    <link rel="icon" href="/images/corona-icon.png" type="image/png">
+    <script src="/jquery/jquery-3.4.1.min.js"></script>
+    <script src="/bootstrap/popper.min.js"></script>
+    <script src="/bootstrap/bootstrap.min.js"></script>
+
+<!--    <script data-ad-client="ca-pub-7654250176015976" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>-->
+    <script type="text/javascript" src="/js/country.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
     <script>
         var confirmedByCountryByDate = "[[${confirmedByCountryByDate}]]";
@@ -15,27 +23,16 @@
         var recoveredByCountryByDate = "[[${recoveredByCountryByDate}]]";
         var countryName = "[[${countryName}]]";
     </script>
-    <script data-ad-client="ca-pub-7654250176015976" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-    <script type="text/javascript" src="/js/country.js"></script>
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script th:inline="javascript" src="/js/details.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
-    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
-
 
 </head>
 <body>
 <div class="container">
     <h2>COVID-19 - Case Report</h2>
-<!--    <button type="button" class="btn btn-outline-dark" onclick="goBackToHome(event)"></button>-->
-    <div class="row" >
+    <div class="row">
+        &nbsp;&nbsp;&nbsp;&nbsp;<img th:src="@{/images/back-button.png}" width="30" height="30" align="middle" onclick="goBackToHome(event)"/>
         <div class="col-auto">
-            <i class="fa fa-arrow-circle-left" style="font-size:40px" onclick="goBackToHome(event)"></i>
-        </div>
-        <div class="col-auto" align="right">
-            <a class="lead ont-weight-bold" height id="displayName"></a>
+            <a class="lead ont-weight-bold text-primary" id="displayName"></a>
         </div>
         <div class="col-auto" align="left">
             <img th:src="@{/country/{code}.png (code=${countryCode})}" width="40" th:classappend="shadow-sm" id="countryFlagImage">
@@ -43,29 +40,28 @@
 
     </div>
 
-    <div id="curve_chart" style="height: 500px"></div>
+    <div id="curve_chart" style="height: 450px;width=device-width"></div>
     <hr class="my-4">
 <!--    <form class="form-inline">-->
 <!--        &lt;!&ndash; Search form &ndash;&gt;-->
 <!--        <input class="form-control" type="text" placeholder="Search" aria-label="Search" onkeyup="searchFunction()" id="myInputDetail">-->
 <!--    </form>-->
-    <form>
-            <input id="filterTable-input" data-type="search">
-    </form>
-<!--    <BR/>-->
+
+    <input class="form-control" id="myInput" type="text" placeholder="Search..">
+    <br>
     <div class="table-responsive">
-        <table data-role="table" data-filter="true" data-input="#filterTable-input" class="ui-responsive table-stroke" id="temp-table">
+        <table class="table table-hover" id="temp-table">
             <thead>
             <tr>
-                <th  data-priority="persist">Region</th>
+                <th>Region</th>
 <!--                <th data-priority="1">active</th>-->
-                <th  data-priority="2">Confirmed</th>
-                <th  data-priority="3">Deaths</th>
-                <th  data-priority="4">Recovered</th>
+                <th>Confirmed</th>
+                <th>Deaths</th>
+                <th>Recovered</th>
 
             </tr>
             </thead>
-            <tbody id="stateDataId">
+            <tbody id="stateTableBodyId">
             </tbody>
         </table>
     </div>

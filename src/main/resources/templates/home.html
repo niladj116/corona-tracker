@@ -6,23 +6,27 @@
     <meta name="viewport"  content="width=device-width, initial-scale=1, shrink-to-fit=yes">
     <meta name="description"  content="COVID-19 - Novel Corona Virus Live Report | Global Statistics by Countries">
     <meta http-equiv="refresh" content="60"/>
+    <link rel="shortcut icon" href="images/corona-icon.png" type="image/png">
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="/bootstrap/bootstrap.min.css">
+    <script src="/jquery/jquery-3.4.1.min.js"></script>
+    <script src="/bootstrap/popper.min.js"></script>
+    <script src="/bootstrap/bootstrap.min.js"></script>
 
     <title>COVID-19 - Novel Corona Virus Current Report</title>
 
-    <script data-ad-client="ca-pub-7654250176015976" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!--    <script data-ad-client="ca-pub-7654250176015976" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript" src="/js/country.js"></script>
-    <script type="text/javascript" src="/js/home.js"></script>
-
+    <script th:inline="javascript" src="/js/home.js"></script>
 </head>
 <body>
 <div class="container">
-    <h2>COVID-19 - Current Report</h2>
-
-    <div class="jumbotron">
-        <a>Total Deaths : </a>
-        <h1 class="display-4 text-danger" th:text="${#numbers.formatInteger(allTotalDeathCases,3,'COMMA')}" ></h1>
+    <h2>COVID-19 Live Data</h2>
+    <div id="regions_div"></div>
+<!--    <div class="jumbotron">-->
+        <a class="lead">Total Deaths : </a>
+        <h1 class="text-danger display-4" th:text="${#numbers.formatInteger(allTotalDeathCases,3,'COMMA')}" ></h1>
         <a class="lead">Total Confirmed : </a>
         <a class="lead text-danger ont-weight-bold" th:text="${#numbers.formatInteger(allTotalCases,3,'COMMA')}" ></a>
         &nbsp;<a class="lead">Recovered : </a>
@@ -34,27 +38,27 @@
 <!--        </button>-->
         <hr class="my-4">
 
-        <form class="form-inline">
+<!--        <form class="form-inline">-->
             <!-- Search form -->
-            <input class="form-control" type="text" placeholder="Search" aria-label="Search" onkeyup="searchFunction()" id="myInput">
-        </form>
-    </div>
+            <input class="form-control" type="text" aria-label="Search" id="myInput" placeholder="Search..">
+<!--        </form>-->
+<!--    </div>-->
     <div id="info"></div>
     <div class="table-responsive">
     <table class="table table-hover" id="myTable">
-        <thead class="thead-dark">
+        <thead>
         <tr>
             <th><a href="#" class="text-light"><img th:src="@{/country/flag.png}" width="20"></a></th>
-            <th><a href="#" onclick="sortTable(1)" class="text-light">Country</a></th>
-            <th><a href="#" onclick="sortTable(2)" class="text-light">Confirmed</a></th>
-            <th><a href="#" onclick="sortTable(3)" class="text-light">New Cases</a></th>
-            <th><a href="#" onclick="sortTable(4)" class="text-light">Critical</a></th>
-            <th><a href="#" onclick="sortTable(5)" class="text-light">Deaths</a></th>
-            <th><a href="#" onclick="sortTable(6)" class="text-light">New Deaths</a></th>
-            <th><a href="#" onclick="sortTable(7)" class="text-light">Recovered</a></th>
+            <th><a onclick="sortTable(1)">Country</a></th>
+            <th><a onclick="sortTable(2)">Confirmed</a></th>
+            <th><a onclick="sortTable(3)">New Cases</a></th>
+            <th><a onclick="sortTable(4)">Critical</a></th>
+            <th><a onclick="sortTable(5)">Deaths</a></th>
+            <th><a onclick="sortTable(6)">New Deaths</a></th>
+            <th><a onclick="sortTable(7)">Recovered</a></th>
         </tr>
         </thead>
-        <tbody>
+        <tbody id="countryTableBodyId">
         <tr th:each="stats : ${statsList}" th:classappend="${stats.totalCases == 0 || (stats.totalCases-stats.totalRecoveredCases) == 0 ? 'table-success' : ''}"
             onclick="goToDetails(event)">
             <td><img th:src="@{/country/{code}.png (code=${stats.countryCode})}" width="20" th:classappend="shadow-sm"></td>

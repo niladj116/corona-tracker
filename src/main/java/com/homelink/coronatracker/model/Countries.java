@@ -142,6 +142,7 @@ public class Countries {
         put("saint kitts and nevis", "kn");
         put("n. korea, democratic peoples republic of", "kp");
         put("s. korea", "kr");
+        put("korea, south", "kr");
         put("kuwait", "kw");
         put("cayman islands", "ky");
         put("channel islands", "ky");
