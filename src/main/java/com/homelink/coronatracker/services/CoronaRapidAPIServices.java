@@ -54,7 +54,11 @@ public class CoronaRapidAPIServices {
                 locationStats.setNewCases(Integer.parseInt(map.get("new_cases").replace(",","")));
                 locationStats.setTotalDeathCases(Integer.parseInt(map.get("deaths").replace(",","")));
                 locationStats.setNewDeathCases(Integer.parseInt(map.get("new_deaths").replace(",","")));
-                locationStats.setTotalRecoveredCases(Integer.parseInt(map.get("total_recovered").replace(",","")));
+                try {
+                    locationStats.setTotalRecoveredCases(Integer.parseInt(map.get("total_recovered").replace(",", "")));
+                } catch (NumberFormatException e) {
+                    locationStats.setTotalRecoveredCases(0);
+                }
                 locationStats.setCriticalCases(Integer.parseInt(map.get("serious_critical").replace(",","")));
                 stats.add(locationStats);
             });
