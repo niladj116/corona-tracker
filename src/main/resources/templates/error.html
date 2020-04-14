@@ -23,41 +23,41 @@
 
         <img th:src="@{/images/error.png}" height="100" width="100"/>
 <!--        <a th:text="${timestamp}"/> -->
-        <p><a onclick="window.reload();">Go Home</a></p>
+        <p><a href="javascript:window.location.replace('/');">Home</a></p>
 
 </div>
 
-<!--<table>-->
-<!--    <tr>-->
-<!--        <td>Date</td>-->
-<!--        <td th:text="${timestamp}"/>-->
-<!--    </tr>-->
-<!--    <tr>-->
-<!--        <td>Path</td>-->
-<!--        <td th:text="${path}"/>-->
-<!--    </tr>-->
-<!--    <tr>-->
-<!--        <td>Error</td>-->
-<!--        <td th:text="${error}"/>-->
-<!--    </tr>-->
-<!--    <tr>-->
-<!--        <td>Status</td>-->
-<!--        <td th:text="${status}"/>-->
-<!--    </tr>-->
-<!--    <tr>-->
-<!--        <td>Message</td>-->
-<!--        <td th:text="${message}"/>-->
-<!--    </tr>-->
-<!--    <tr>-->
-<!--        <td>Exception</td>-->
-<!--        <td th:text="${exception}"/>-->
-<!--    </tr>-->
-<!--    <tr>-->
-<!--        <td>Trace</td>-->
-<!--        <td>-->
-<!--            <pre th:text="${trace}"/>-->
-<!--        </td>-->
-<!--    </tr>-->
-<!--</table>-->
+<table>
+    <tr>
+        <td>Date</td>
+        <td th:text="${timestamp}"/>
+    </tr>
+    <tr>
+        <td>Path</td>
+        <td th:text="${path}"/>
+    </tr>
+    <tr>
+        <td>Error</td>
+        <td th:text="${error}"/>
+    </tr>
+    <tr>
+        <td>Status</td>
+        <td th:text="${status}"/>
+    </tr>
+    <tr>
+        <td>Message</td>
+        <td th:text="${message}"/>
+    </tr>
+    <tr>
+        <td>Exception</td>
+        <td th:text="${exception}"/>
+    </tr>
+    <tr>
+        <td>Trace</td>
+        <td>
+            <pre th:text="${trace}"/>
+        </td>
+    </tr>
+</table>
 </body>
 </html>

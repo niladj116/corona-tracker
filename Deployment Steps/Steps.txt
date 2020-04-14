@@ -65,3 +65,6 @@ Deployment Steps for a Spring boot (Maven) project into AppEngine
 
 Reference :
 https://github.com/GoogleCloudPlatform/getting-started-java/blob/master/appengine-standard-java8/springboot-appengine-standard/pom.xml
+
+WINDOWS :
+With Java(Jre) 1.8, compatible JDK is OpenJDK 11.
