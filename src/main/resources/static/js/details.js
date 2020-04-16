@@ -1,4 +1,5 @@
           var stateDetails = "";
+          var reducedData = {};
           var localCountryName = countryName;
           google.charts.load('current', {'packages':['corechart']});
           google.charts.setOnLoadCallback(drawChart);
@@ -108,8 +109,8 @@
                                 "url": "https://corona-virus-world-and-india-data.p.rapidapi.com/api_india",
                                 "method": "GET",
                                 "headers": {
-                                    "x-rapidapi-host": "corona-virus-world-and-india-data.p.rapidapi.com",
-                                    "x-rapidapi-key": "1dbdf75773msh5d8ff64d5df24e3p1783d1jsn46f186225dfe"
+                                    "x-rapidapi-host": rapidapi_host_IN,
+                                    "x-rapidapi-key": rapidapi_key
                                 }
                             }
 
@@ -143,8 +144,8 @@
                                 "url": "https://covid-19-coronavirus-statistics.p.rapidapi.com/v1/stats",
                                 "method": "GET",
                                 "headers": {
-                                    "x-rapidapi-host": "covid-19-coronavirus-statistics.p.rapidapi.com",
-                                    "x-rapidapi-key": "1dbdf75773msh5d8ff64d5df24e3p1783d1jsn46f186225dfe"
+                                    "x-rapidapi-host": rapidapi_host_US,
+                                    "x-rapidapi-key": rapidapi_key
                                 }
                             }
                     settings['url'] = settings['url']+"?country="+localCountryName;
@@ -153,32 +154,74 @@
                         $("#curve_chart").after('<div class="d-flex align-items-center text-secondary" id="loading"><strong>Loading...</strong><div class="spinner-border spinner-border-sm text-secondary ml-auto" role="status" aria-hidden="true"></div></div>');
                         stateDetails = "";
                         var data = response.data.covid19Stats;
-                        var sortedData = data.sort(function compare(a, b) {
-                                        var bandA = parseInt(a.confirmed);
-                                        var bandB = parseInt(b.confirmed);
-                                        var comparison = 0;
-                                        if (bandA > bandB) {
-                                          comparison = -1;
-                                        } else if (bandA < bandB) {
-                                          comparison = 1;
-                                        }
-                                        return comparison;
-                                    }).filter(function(o) {
-                                        return o.confirmed != '0';
-                                    }).forEach(function(state) {
-                                            stateDetails += "<tr>";
-                                            if(state.city == '' && state.province == '')
-                                                stateDetails +="<th>"+ state.country+ "</th>";
-                                            else if(state.city == '')
-                                                stateDetails +="<th>"+state.province + "</th>";
-                                            else
-                                                stateDetails +="<th>"+state.city+ ", " + state.province + "</th>";
-                //                            stateDetails +=    "<td>"+data.confirmed+"</td>"
-                                            stateDetails +=    "<td>"+state.confirmed+"</td>";
-                                            stateDetails +=    "<td class='text-danger'>"+state.deaths+"</td>";
-                                            stateDetails +=    "<td class='text-success'>"+state.recovered+"</td>";
-                                            stateDetails += "</tr>";
-                                    });
+                        /*Test Code*/
+                        let resp_data = response.data.covid19Stats;
+                        let property = 'province';
+                        reducedData = resp_data.reduce(function(accumulator, currentObj) {
+                            let key = '';
+                            if(currentObj.city == '' && currentObj.province == '')
+                                key = currentObj.country;
+                            else
+                                key = currentObj.province;
+
+                            if(!accumulator[key])
+                                accumulator[key] = {region: key, confirmed: 0, deaths: 0, recovered: 0, subRegions: []};
+
+                            accumulator[key].confirmed += currentObj.confirmed;
+                            accumulator[key].deaths += currentObj.deaths;
+                            accumulator[key].recovered += currentObj.recovered;
+                            accumulator[key].subRegions.push(currentObj);
+                            return accumulator;
+                          }, {});
+
+                        var dataArraySorted = Object.values(reducedData).sort(function compare(a, b) {
+                                             var A = parseInt(a.confirmed);
+                                             var B = parseInt(b.confirmed);
+                                             var comparison = 0;
+                                             if (A > B) {
+                                               comparison = -1;
+                                             } else if (A < B) {
+                                               comparison = 1;
+                                             }
+                                             return comparison;
+                                         }).forEach(function(state) {
+                                               stateDetails += "<tr>";
+                                               if(state.subRegions.length > 1)
+                                                stateDetails +="<td><a href='#' class='open-modal'>"+state.region + "</a></td>";
+                                               else
+                                                stateDetails +="<td>"+state.region + "</td>";
+                                               stateDetails +=    "<td>"+state.confirmed+"</td>";
+                                               stateDetails +=    "<td class='text-danger'>"+state.deaths+"</td>";
+                                               stateDetails +=    "<td class='text-success'>"+state.recovered+"</td>";
+                                               stateDetails += "</tr>";
+                                       });
+//                        console.log(dataArraySorted);
+//                        var sortedData = data.sort(function compare(a, b) {
+//                                        var A = parseInt(a.confirmed);
+//                                        var B = parseInt(b.confirmed);
+//                                        var comparison = 0;
+//                                        if (A > B) {
+//                                          comparison = -1;
+//                                        } else if (A < B) {
+//                                          comparison = 1;
+//                                        }
+//                                        return comparison;
+//                                    }).filter(function(o) {
+//                                        return o.confirmed != '0';
+//                                    }).forEach(function(state) {
+//                                            stateDetails += "<tr>";
+//                                            if(state.city == '' && state.province == '')
+//                                                stateDetails +="<th>"+ state.country+ "</th>";
+//                                            else if(state.city == '')
+//                                            stateDetails +="<th>"+state.province + "</th>";
+//                                            else
+//                                                stateDetails +="<th>"+state.city+ ", " + state.province + "</th>";
+//                //                            stateDetails +=    "<td>"+data.confirmed+"</td>"
+//                                            stateDetails +=    "<td>"+state.confirmed+"</td>";
+//                                            stateDetails +=    "<td class='text-danger'>"+state.deaths+"</td>";
+//                                            stateDetails +=    "<td class='text-success'>"+state.recovered+"</td>";
+//                                            stateDetails += "</tr>";
+//                                    });
                                       setTimeout(function() {
                                           console.log('callback');
                                           $('#stateTableBodyId').html(stateDetails);
@@ -190,4 +233,33 @@
                 }
              }
         });
+
+        $(document).on("click", ".open-modal",
+            function (event) {
+                    var subRegionParam = event.currentTarget.innerText;
+                    $("#subRegionModalLongTitle").html(subRegionParam);
+                    stateDetails = "";
+                    reducedData[subRegionParam].subRegions.sort(function compare(a, b) {
+                         var A = parseInt(a.confirmed);
+                         var B = parseInt(b.confirmed);
+                         var comparison = 0;
+                         if (A > B) {
+                           comparison = -1;
+                         } else if (A < B) {
+                           comparison = 1;
+                         }
+                         return comparison;
+
+                    }).forEach(function(item) {
+//                        console.log(item);
+                         stateDetails += "<tr>";
+                         stateDetails +="<td>"+item.city + "</td>";
+                         stateDetails +=    "<td>"+item.confirmed+"</td>";
+                         stateDetails +=    "<td class='text-danger'>"+item.deaths+"</td>";
+                         stateDetails +=    "<td class='text-success'>"+item.recovered+"</td>";
+                         stateDetails += "</tr>";
+                    });
+                    $('#subRegion-temp-table').html(stateDetails);
+                    $('#exampleModalCenter').modal('show');
+            });
 

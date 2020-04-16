@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport"  content="width=device-width, initial-scale=1, shrink-to-fit=yes">
     <meta name="description"  content="COVID-19 - Novel Corona Virus Live Report | Global Statistics by Countries">
-    <meta http-equiv="refresh" content="60"/>
+    <meta http-equiv="refresh" content="300"/>
     <link rel="shortcut icon" href="images/corona-icon.png" type="image/png">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="/bootstrap/bootstrap.min.css">
@@ -14,7 +14,7 @@
     <script src="/bootstrap/bootstrap.min.js"></script>
 
     <title>COVID-19 - Novel Corona Virus Current Report</title>
-
+    <script type="text/javascript" src="/js/key.js"></script>
 <!--    <script data-ad-client="ca-pub-7654250176015976" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>-->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript" src="/js/country.js"></script>
@@ -26,7 +26,7 @@
 <!--    <div class="spinner-border text-secondary ml-auto" id="loading" role="status" aria-hidden="true"></div>-->
     <a id="loading">
         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-        Loading...
+        Loading map...
     </a>
     <div id="regions_div"></div>
 <!--    <div class="jumbotron">-->
@@ -67,7 +67,10 @@
         <tr th:each="stats : ${statsList}" th:classappend="${stats.totalCases == 0 || (stats.totalCases-stats.totalRecoveredCases) == 0 ? 'table-success' : ''}"
             onclick="goToDetails(event)">
             <td><img th:src="@{/country/{code}.png (code=${stats.countryCode})}" width="20" th:classappend="shadow-sm"></td>
-            <td th:text="${stats.country}" width="100"></td>
+<!--            <td th:text="${stats.country}" width="100"></td>-->
+            <td width="100">
+                <a href="#" th:text="${stats.country}"/>
+            </td>
             <td th:text="${stats.totalCases}"></td>
             <td th:text="${stats.newCases==0 ? '' : '+'} + ${stats.newCases}" th:classappend="${stats.newCases == 0 ? '' : 'bg-warning text-dark'}"></td>
             <td th:text="${stats.criticalCases}" th:classappend="${stats.criticalCases == 0 ? '' : 'text-warning'}"></td>

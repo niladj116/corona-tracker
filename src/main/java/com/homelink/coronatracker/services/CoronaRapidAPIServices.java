@@ -24,9 +24,22 @@ public class CoronaRapidAPIServices {
 
     List<LocationStats> sortedList = new ArrayList<>();
 
+    public List<LocationStats> getCachedDetailedData() {
+        if(this.sortedList.size() == 0) {
+            System.out.println(new Date() + ": getCachedDetailedData > getDetailedData");
+            return getDetailedData();
+        } else {
+            System.out.println(new Date() + ": getCachedDetailedData");
+            return this.sortedList;
+        }
+    }
+
     @PostConstruct
-//    @Scheduled(cron = "* * 0 ? * *")
+//    @Scheduled(cron = "0 * * ? * *") //every min
+//    @Scheduled(cron = "0 0 * ? * *") //every hr
+    @Scheduled(cron = "0 */30 * ? * *") //every 30 min
     public List<LocationStats> getDetailedData() {
+        System.out.println(new Date() + ": inside getDetailedData");
         List<LocationStats> sortedList = this.sortedList;
 //        System.out.println("CoronaRapidAPIServices -> getDetailedData...");
         List<LocationStats> stats = new ArrayList<>();
@@ -62,7 +75,7 @@ public class CoronaRapidAPIServices {
                 locationStats.setCriticalCases(Integer.parseInt(map.get("serious_critical").replace(",","")));
                 stats.add(locationStats);
             });
-            sortedList = stats.stream().sorted(Comparator.comparing(LocationStats::getTotalCases).reversed()).collect(Collectors.toList());
+            this.sortedList = stats.stream().sorted(Comparator.comparing(LocationStats::getTotalCases).reversed()).collect(Collectors.toList());
         } catch (IOException e) {
             e.printStackTrace();
         }

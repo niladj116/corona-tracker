@@ -26,14 +26,14 @@ public class HomeController {
     @GetMapping("/")
     public String landingController(Model model) {
 
-        List<LocationStats> statsList = rapidAPIServices.getDetailedData();
+        List<LocationStats> statsList = rapidAPIServices.getCachedDetailedData();
         LocationStats summaryStats = statsList.stream().reduce(new LocationStats(), (s1,s2) -> {
             s1.setTotalCases(s1.getTotalCases()+s2.getTotalCases());
             s1.setTotalDeathCases(s1.getTotalDeathCases()+s2.getTotalDeathCases());
             s1.setTotalRecoveredCases(s1.getTotalRecoveredCases()+s2.getTotalRecoveredCases());
             return s1;
         });
-
+        //Back up call if rapidAPIServices is not available
         if(statsList != null && statsList.size() == 0) {
             statsList = service.getDetailedData();
             summaryStats = service.getSummaryData();
