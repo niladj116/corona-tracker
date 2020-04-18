@@ -97,6 +97,7 @@ public class Countries {
         put("scotland", "gb-sct");
         put("wales", "gb-wls");
         put("uk", "gb");
+        put("united kingdom", "gb");
         put("grenada", "gd");
         put("georgia", "ge");
         put("french guiana", "gf");

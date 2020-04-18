@@ -190,9 +190,9 @@
                                                 stateDetails +="<td><a href='#' class='open-modal'>"+state.region + "</a></td>";
                                                else
                                                 stateDetails +="<td>"+state.region + "</td>";
-                                               stateDetails +=    "<td>"+state.confirmed+"</td>";
-                                               stateDetails +=    "<td class='text-danger'>"+state.deaths+"</td>";
-                                               stateDetails +=    "<td class='text-success'>"+state.recovered+"</td>";
+                                               stateDetails +=    "<td  style='text-align:right;'>"+formatNumber(state.confirmed)+"</td>";
+                                               stateDetails +=    "<td style='text-align:right;' class='text-danger'>"+formatNumber(state.deaths)+"</td>";
+                                               stateDetails +=    "<td style='text-align:right;' class='text-success'>"+formatNumber(state.recovered)+"</td>";
                                                stateDetails += "</tr>";
                                        });
 //                        console.log(dataArraySorted);
@@ -253,13 +253,16 @@
                     }).forEach(function(item) {
 //                        console.log(item);
                          stateDetails += "<tr>";
-                         stateDetails +="<td>"+item.city + "</td>";
-                         stateDetails +=    "<td>"+item.confirmed+"</td>";
-                         stateDetails +=    "<td class='text-danger'>"+item.deaths+"</td>";
-                         stateDetails +=    "<td class='text-success'>"+item.recovered+"</td>";
+                         stateDetails +="<th>"+item.city + "</th>";
+                         stateDetails +=    "<td style='text-align:right;'>"+formatNumber(item.confirmed)+"</td>";
+                         stateDetails +=    "<td style='text-align:right;' class='text-danger'>"+formatNumber(item.deaths)+"</td>";
+                         stateDetails +=    "<td style='text-align:right;' class='text-success'>"+formatNumber(item.recovered)+"</td>";
                          stateDetails += "</tr>";
                     });
                     $('#subRegion-temp-table').html(stateDetails);
                     $('#exampleModalCenter').modal('show');
             });
 
+        function formatNumber(num) {
+          return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+        }

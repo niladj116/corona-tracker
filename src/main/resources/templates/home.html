@@ -18,6 +18,9 @@
 <!--    <script data-ad-client="ca-pub-7654250176015976" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>-->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript" src="/js/country.js"></script>
+    <script>
+        var countryDataJSON = "[[${statsListJSON}]]";
+    </script>
     <script th:inline="javascript" src="/js/home.js"></script>
 </head>
 <body>
@@ -31,11 +34,11 @@
     <div id="regions_div"></div>
 <!--    <div class="jumbotron">-->
         <a class="lead">Total Deaths : </a>
-        <h1 class="text-danger display-4" th:text="${#numbers.formatInteger(allTotalDeathCases,3,'COMMA')}" ></h1>
+        <h1 class="text-danger display-4" th:text="${#numbers.formatInteger(allTotalDeathCases,0,'COMMA')}" ></h1>
         <a class="lead">Total Confirmed : </a>
-        <a class="lead text-danger ont-weight-bold" th:text="${#numbers.formatInteger(allTotalCases,3,'COMMA')}" ></a>
+        <a class="lead text-danger ont-weight-bold" th:text="${#numbers.formatInteger(allTotalCases,0,'COMMA')}" ></a>
         &nbsp;<a class="lead">Recovered : </a>
-        <a class="lead text-success ont-weight-bold" th:text="${#numbers.formatInteger(allTotalRecoveredCases,3,'COMMA')}" ></a>
+        <a class="lead text-success ont-weight-bold" th:text="${#numbers.formatInteger(allTotalRecoveredCases,0,'COMMA')}" ></a>
 <!--        <a class="lead" href="#" onclick="location.reload()"><img th:src="@{/images/refresh.png}" width="15" align="middle"/></a>-->
 <!--        <button class="btn btn-primary" type="button" onclick="location.reload()">-->
 <!--            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>-->
@@ -71,12 +74,12 @@
             <td width="100">
                 <a href="#" th:text="${stats.country}"/>
             </td>
-            <td th:text="${stats.totalCases}"></td>
-            <td th:text="${stats.newCases==0 ? '' : '+'} + ${stats.newCases}" th:classappend="${stats.newCases == 0 ? '' : 'bg-warning text-dark'}"></td>
-            <td th:text="${stats.criticalCases}" th:classappend="${stats.criticalCases == 0 ? '' : 'text-warning'}"></td>
-            <td th:text="${stats.totalDeathCases}" th:classappend="${stats.totalDeathCases == 0 ? '' : 'text-danger'}"></td>
-            <td th:text="${stats.newDeathCases==0 ? '':'+'} + ${stats.newDeathCases}" th:classappend="${stats.newDeathCases == 0 ? '' : 'bg-danger text-white'}"></td>
-            <td th:text="${stats.totalRecoveredCases}" th:classappend="${stats.totalRecoveredCases==0?'':'text-success'}"></td>
+            <td th:text="${#numbers.formatInteger(stats.totalCases,0,'COMMA')}"></td>
+            <td th:text="${stats.newCases==0 ? '' : '+'} + ${#numbers.formatInteger(stats.newCases,0,'COMMA')}" th:classappend="${stats.newCases == 0 ? '' : 'bg-warning text-dark'}"></td>
+            <td th:text="${#numbers.formatInteger(stats.criticalCases,0,'COMMA')}" th:classappend="${stats.criticalCases == 0 ? '' : 'text-warning'}"></td>
+            <td th:text="${#numbers.formatInteger(stats.totalDeathCases,0,'COMMA')}" th:classappend="${stats.totalDeathCases == 0 ? '' : 'text-danger'}"></td>
+            <td th:text="${stats.newDeathCases==0 ? '':'+'} + ${#numbers.formatInteger(stats.newDeathCases,0,'COMMA')}" th:classappend="${stats.newDeathCases == 0 ? '' : 'bg-danger text-white'}"></td>
+            <td th:text="${#numbers.formatInteger(stats.totalRecoveredCases,0,'COMMA')}" th:classappend="${stats.totalRecoveredCases==0?'':'text-success'}"></td>
         </tr>
         </tbody>
     </table>

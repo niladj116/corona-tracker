@@ -7,15 +7,20 @@
       google.charts.setOnLoadCallback(drawRegionsMap);
       function drawRegionsMap() {
         var chartData = [];
-        var table, tr, countryName, confirmed;
-        chartData.push(['Country', 'Confirmed']);
-        table = document.getElementById("myTable");
-        tr = table.getElementsByTagName("tr");
-        for (i = 1; i < tr.length; i++) {
-            countryName = tr[i].getElementsByTagName("td")[1];
-            confirmed = tr[i].getElementsByTagName("td")[2];
-            chartData.push([country[countryName.innerText],  parseInt(confirmed.innerText)]);
-        }
+        chartData.push(['Country', 'Confirmed', 'Death']);
+//        var table, tr, countryName, confirmed;
+//        table = document.getElementById("myTable");
+//        tr = table.getElementsByTagName("tr");
+//        for (i = 1; i < tr.length; i++) {
+//            countryName = tr[i].getElementsByTagName("td")[1];
+//            confirmed = tr[i].getElementsByTagName("td")[2];
+//            chartData.push([country[countryName.innerText],  parseInt(confirmed.innerText.replace(',',''))]);
+//        }
+        let countrydata = countryDataJSON.replace(/&quot;/g,'"');
+        JSON.parse(countrydata).forEach(function (item){
+            chartData.push([item.country, item.totalCases, item.totalDeathCases]);
+        });
+
         var data = google.visualization.arrayToDataTable(chartData);
 
         var options = {
@@ -156,3 +161,6 @@
         }
 
 
+        function formatNumber(num) {
+          return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+        }

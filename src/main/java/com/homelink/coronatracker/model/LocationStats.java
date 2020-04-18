@@ -1,5 +1,7 @@
 package com.homelink.coronatracker.model;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import java.util.*;
 
 public class LocationStats {
@@ -7,10 +9,13 @@ public class LocationStats {
     private String stateCountryKey;
     private String countryCode;
     private String state;
+    @JsonView(iLocationStatsMapView.class)
     private String country;
     private String subState;
+    @JsonView(iLocationStatsMapView.class)
     private int totalCases;
     private int newCases;
+    @JsonView(iLocationStatsMapView.class)
     private int totalDeathCases;
     private int newDeathCases;
     private int totalRecoveredCases;

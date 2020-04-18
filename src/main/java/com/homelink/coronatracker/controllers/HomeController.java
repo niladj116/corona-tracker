@@ -1,20 +1,18 @@
 package com.homelink.coronatracker.controllers;
 
-import com.homelink.coronatracker.model.Countries;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.homelink.coronatracker.model.LocationStats;
+import com.homelink.coronatracker.model.iLocationStatsMapView;
 import com.homelink.coronatracker.services.CoronaRapidAPIServices;
 import com.homelink.coronatracker.services.CoronaVirusTrackerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
+import java.util.List;
 
 @Controller
 public class HomeController {
@@ -38,8 +36,17 @@ public class HomeController {
             statsList = service.getDetailedData();
             summaryStats = service.getSummaryData();
         }
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.disable(MapperFeature.DEFAULT_VIEW_INCLUSION);
+        String jsonString = "";
+        try {
+            jsonString = objectMapper.writerWithView(iLocationStatsMapView.class).writeValueAsString(statsList);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
 
         model.addAttribute("statsList",statsList);
+        model.addAttribute("statsListJSON",jsonString);
         model.addAttribute("allTotalCases",summaryStats.getTotalCases());
         model.addAttribute("allTotalDeathCases",summaryStats.getTotalDeathCases());
         model.addAttribute("allTotalRecoveredCases",summaryStats.getTotalRecoveredCases());
