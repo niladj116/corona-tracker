@@ -7,6 +7,7 @@ import java.util.*;
 public class LocationStats {
 
     private String stateCountryKey;
+    @JsonView(iLocationStatsMapView.class)
     private String countryCode;
     private String state;
     @JsonView(iLocationStatsMapView.class)

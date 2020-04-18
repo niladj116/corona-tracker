@@ -18,7 +18,7 @@
 //        }
         let countrydata = countryDataJSON.replace(/&quot;/g,'"');
         JSON.parse(countrydata).forEach(function (item){
-            chartData.push([item.country, item.totalCases, item.totalDeathCases]);
+            chartData.push([country[item.country], item.totalCases, item.totalDeathCases]);
         });
 
         var data = google.visualization.arrayToDataTable(chartData);
