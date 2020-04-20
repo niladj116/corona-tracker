@@ -4,6 +4,12 @@ target/
 !**/src/main/**
 !**/src/test/**
 
+
+### APP ###
+src/main/resources/static/js/key.js
+
+.DS_Store
+
 ### STS ###
 .apt_generated
 .classpath

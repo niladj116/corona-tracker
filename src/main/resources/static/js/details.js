@@ -79,7 +79,8 @@
 
 
         function goBackToHome(event) {
-            window.location.replace("/");
+//            window.location.replace("/");
+            history.back()
         }
 
         function displayCountryName(countryName) {
@@ -123,9 +124,9 @@
                             stateDetails += "<tr>"
                             stateDetails +=    "<th>"+response.state_wise[state].state+"</th>"
     //                            stateDetails +=    "<td>"+response.state_wise[state].active+"</td>"
-                            stateDetails +=    "<td>"+response.state_wise[state].confirmed+"</td>"
-                            stateDetails +=    "<td class='text-danger'>"+response.state_wise[state].deaths+"</td>"
-                            stateDetails +=    "<td class='text-success'>"+response.state_wise[state].recovered+"</td>"
+                            stateDetails +=    "<td style='text-align:right;'>"+formatNumber(response.state_wise[state].confirmed)+"</td>"
+                            stateDetails +=    "<td class='text-danger' style='text-align:right;'>"+formatNumber(response.state_wise[state].deaths)+"</td>"
+                            stateDetails +=    "<td class='text-success' style='text-align:right;'>"+formatNumber(response.state_wise[state].recovered)+"</td>"
                             stateDetails += "</tr>"
                         }
                           setTimeout(function() {
