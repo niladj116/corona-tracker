@@ -1,6 +1,7 @@
 package com.homelink.coronatracker.services;
 
 import com.homelink.coronatracker.connection.HttpsClient;
+import com.homelink.coronatracker.model.Countries;
 import com.homelink.coronatracker.model.LocationStats;
 import org.springframework.boot.json.JsonParser;
 import org.springframework.boot.json.JsonParserFactory;
@@ -17,11 +18,31 @@ import java.util.stream.Collectors;
 public class CoronaRapidAPIServices {
 
     public static String DETAILED_CORONA_REPORT_URL = "https://coronavirus-monitor.p.rapidapi.com/coronavirus/cases_by_country.php";
-//    @Scheduled(cron = "1 * * * * *")
+    public static String DETAILED_BY_COUNTRY_REPORT_URL = "https://covid-19-coronavirus-statistics.p.rapidapi.com/v1/stats";
+//    https://covid-19-coronavirus-statistics.p.rapidapi.com/v1/stats
+
+
+    List<LocationStats> sortedList = new ArrayList<>();
+
+    public List<LocationStats> getCachedDetailedData() {
+        if(this.sortedList.size() == 0) {
+            System.out.println(new Date() + ": getCachedDetailedData > getDetailedData");
+            return getDetailedData();
+        } else {
+            System.out.println(new Date() + ": getCachedDetailedData");
+            return this.sortedList;
+        }
+    }
+
+    @PostConstruct
+//    @Scheduled(cron = "0 * * ? * *") //every min
+//    @Scheduled(cron = "0 0 * ? * *") //every hr
+    @Scheduled(cron = "0 */30 * ? * *") //every 30 min
     public List<LocationStats> getDetailedData() {
-        System.out.println("CoronaRapidAPIServices -> getDetailedData...");
+        System.out.println(new Date() + ": inside getDetailedData");
+        List<LocationStats> sortedList = this.sortedList;
+//        System.out.println("CoronaRapidAPIServices -> getDetailedData...");
         List<LocationStats> stats = new ArrayList<>();
-        List<LocationStats> sortedList = new ArrayList<>();
         HttpsClient client = new HttpsClient();
         JsonParser parser = JsonParserFactory.getJsonParser();
         HashMap<String, String> requestProperties = new HashMap<>();
@@ -35,15 +56,26 @@ public class CoronaRapidAPIServices {
                 Map<String ,String> map = (Map<String, String>)item;
                 LocationStats locationStats = new LocationStats();
                 locationStats.setCountry((String) map.get("country_name"));
+//                System.out.println(locationStats.getCountry());
+                    String code = Countries.doubleBraceMap.get(String.valueOf(map.get("country_name")).toLowerCase());
+                if (code != null)
+                    locationStats.setCountryCode(code);
+                else
+                    locationStats.setCountryCode(Countries.doubleBraceMap.get("default"));
+
                 locationStats.setTotalCases(Integer.parseInt(map.get("cases").replace(",","")));
                 locationStats.setNewCases(Integer.parseInt(map.get("new_cases").replace(",","")));
                 locationStats.setTotalDeathCases(Integer.parseInt(map.get("deaths").replace(",","")));
                 locationStats.setNewDeathCases(Integer.parseInt(map.get("new_deaths").replace(",","")));
-                locationStats.setTotalRecoveredCases(Integer.parseInt(map.get("total_recovered").replace(",","")));
+                try {
+                    locationStats.setTotalRecoveredCases(Integer.parseInt(map.get("total_recovered").replace(",", "")));
+                } catch (NumberFormatException e) {
+                    locationStats.setTotalRecoveredCases(0);
+                }
                 locationStats.setCriticalCases(Integer.parseInt(map.get("serious_critical").replace(",","")));
                 stats.add(locationStats);
             });
-            sortedList = stats.stream().sorted(Comparator.comparing(LocationStats::getTotalDeathCases).reversed()).collect(Collectors.toList());
+            this.sortedList = stats.stream().sorted(Comparator.comparing(LocationStats::getTotalCases).reversed()).collect(Collectors.toList());
         } catch (IOException e) {
             e.printStackTrace();
         }

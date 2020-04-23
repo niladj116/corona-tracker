@@ -1,17 +1,35 @@
 package com.homelink.coronatracker.model;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
+import java.util.*;
+
 public class LocationStats {
 
     private String stateCountryKey;
+    @JsonView(iLocationStatsMapView.class)
+    private String countryCode;
     private String state;
+    @JsonView(iLocationStatsMapView.class)
     private String country;
+    private String subState;
+    @JsonView(iLocationStatsMapView.class)
     private int totalCases;
     private int newCases;
+    @JsonView(iLocationStatsMapView.class)
     private int totalDeathCases;
     private int newDeathCases;
     private int totalRecoveredCases;
     private int newRecoveredCases;
     private int criticalCases;
+    private LinkedHashMap<String , Integer> confirmedByDate = new LinkedHashMap<>();
+    private LinkedHashMap<String , Integer> newConfirmedByDate = new LinkedHashMap<>();
+    private LinkedHashMap<String , Integer> DeathByDate = new LinkedHashMap<>();
+    private LinkedHashMap<String , Integer> newDeathByDate = new LinkedHashMap<>();
+    private LinkedHashMap<String , Integer> RecoveredByDate = new LinkedHashMap<>();
+    private LinkedHashMap<String , Integer> newRecoveredByDate = new LinkedHashMap<>();
+    private List<String> dateSeries;
+    private List<LocationStats> children = new ArrayList<>();
 
 
     public LocationStats(){
@@ -31,12 +49,93 @@ public class LocationStats {
         this.criticalCases = criticalCases;
     }
 
+
+    public String getSubState() {
+        return subState;
+    }
+
+    public void setSubState(String subState) {
+        this.subState = subState;
+    }
+
+    public List<LocationStats> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<LocationStats> children) {
+        this.children = children;
+    }
+
+    public LinkedHashMap<String, Integer> getConfirmedByDate() {
+        return confirmedByDate;
+    }
+
+    public void setConfirmedByDate(LinkedHashMap<String, Integer> confirmedByDate) {
+        this.confirmedByDate = confirmedByDate;
+    }
+
+    public LinkedHashMap<String, Integer> getDeathByDate() {
+        return DeathByDate;
+    }
+
+    public void setDeathByDate(LinkedHashMap<String, Integer> deathByDate) {
+        DeathByDate = deathByDate;
+    }
+
+    public LinkedHashMap<String, Integer> getRecoveredByDate() {
+        return RecoveredByDate;
+    }
+
+    public void setRecoveredByDate(LinkedHashMap<String, Integer> recoveredByDate) {
+        RecoveredByDate = recoveredByDate;
+    }
+
+    public List<String> getDateSeries() {
+        return dateSeries;
+    }
+
+    public void setDateSeries(List<String> dateSeries) {
+        this.dateSeries = dateSeries;
+    }
+
+    public LinkedHashMap<String, Integer> getNewConfirmedByDate() {
+        return newConfirmedByDate;
+    }
+
+    public void setNewConfirmedByDate(LinkedHashMap<String, Integer> newConfirmedByDate) {
+        this.newConfirmedByDate = newConfirmedByDate;
+    }
+
+    public LinkedHashMap<String, Integer> getNewDeathByDate() {
+        return newDeathByDate;
+    }
+
+    public void setNewDeathByDate(LinkedHashMap<String, Integer> newDeathByDate) {
+        this.newDeathByDate = newDeathByDate;
+    }
+
+    public LinkedHashMap<String, Integer> getNewRecoveredByDate() {
+        return newRecoveredByDate;
+    }
+
+    public void setNewRecoveredByDate(LinkedHashMap<String, Integer> newRecoveredByDate) {
+        this.newRecoveredByDate = newRecoveredByDate;
+    }
+
     public int getCriticalCases() {
         return criticalCases;
     }
 
     public void setCriticalCases(int criticalCases) {
         this.criticalCases = criticalCases;
+    }
+
+    public String getCountryCode() {
+        return countryCode;
+    }
+
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
     }
 
     public String getStateCountryKey() {
