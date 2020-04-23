@@ -7,7 +7,7 @@ target/
 
 ### APP ###
 src/main/resources/static/js/key.js
-
+src/main/.DS_Store
 .DS_Store
 
 ### STS ###

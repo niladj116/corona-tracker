@@ -80,7 +80,7 @@
 
         function goBackToHome(event) {
 //            window.location.replace("/");
-            history.back()
+            history.back();
         }
 
         function displayCountryName(countryName) {
@@ -265,5 +265,8 @@
             });
 
         function formatNumber(num) {
+//          console.log(num);
+          if (num == null)
+            num = 0;
           return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
         }

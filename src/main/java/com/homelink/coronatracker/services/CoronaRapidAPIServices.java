@@ -57,7 +57,7 @@ public class CoronaRapidAPIServices {
                 LocationStats locationStats = new LocationStats();
                 locationStats.setCountry((String) map.get("country_name"));
 //                System.out.println(locationStats.getCountry());
-                String code = Countries.doubleBraceMap.get(String.valueOf(map.get("country_name")).toLowerCase());
+                    String code = Countries.doubleBraceMap.get(String.valueOf(map.get("country_name")).toLowerCase());
                 if (code != null)
                     locationStats.setCountryCode(code);
                 else
