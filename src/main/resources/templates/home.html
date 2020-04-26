@@ -5,118 +5,14 @@
     <meta charset="utf-8">
     <meta name="viewport"  content="width=device-width, initial-scale=1, shrink-to-fit=yes">
     <meta name="description"  content="COVID-19 - Novel Corona Virus Live Report | Global Statistics by Countries">
-<<<<<<< HEAD
-=======
     <meta http-equiv="refresh" content="300"/>
     <link rel="shortcut icon" href="images/corona-icon.png" type="image/png">
->>>>>>> World-map
-    <!-- Bootstrap CSS -->
+    <!-- Bootstrap CSS. -->
     <link rel="stylesheet" href="/bootstrap/bootstrap.min.css">
     <script src="/jquery/jquery-3.4.1.min.js"></script>
     <script src="/bootstrap/popper.min.js"></script>
     <script src="/bootstrap/bootstrap.min.js"></script>
 
-<<<<<<< HEAD
-    <title>COVID-19 - Novel Corona Virus Live Report</title>
-    <script type="text/javascript">
-
-        function myFunction() {
-          // Declare variables
-          var input, filter, table, tr, td, i, txtValue;
-          input = document.getElementById("myInput");
-          filter = input.value.toUpperCase();
-          table = document.getElementById("myTable");
-          tr = table.getElementsByTagName("tr");
-
-          // Loop through all table rows, and hide those who don't match the search query
-          for (i = 0; i < tr.length; i++) {
-            td = tr[i].getElementsByTagName("td")[0];
-            td1 = tr[i].getElementsByTagName("td")[1];
-            if (td || td1) {
-              txtValue = td.textContent || td.innerText;
-              txtValue1 = td1.textContent || td1.innerText;
-              if (txtValue.toUpperCase().indexOf(filter) > -1 || txtValue1.toUpperCase().indexOf(filter) > -1) {
-                tr[i].style.display = "";
-              } else {
-                tr[i].style.display = "none";
-              }
-            }
-          }
-        }
-
-        function sortTable(n) {
-          var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0, v1, v2;
-          table = document.getElementById("myTable");
-          switching = true;
-          // Set the sorting direction to ascending:
-          dir = "asc";
-          /* Make a loop that will continue until
-          no switching has been done: */
-          while (switching) {
-            // Start by saying: no switching is done:
-            switching = false;
-            rows = table.rows;
-            /* Loop through all table rows (except the
-            first, which contains table headers): */
-            for (i = 1; i < (rows.length - 1); i++) {
-              // Start by saying there should be no switching:
-              shouldSwitch = false;
-              /* Get the two elements you want to compare,
-              one from current row and one from the next: */
-              x = rows[i].getElementsByTagName("TD")[n];
-              y = rows[i + 1].getElementsByTagName("TD")[n];
-              /* Check if the two rows should switch place,
-              based on the direction, asc or desc: */
-
-
-              if (isNaN(x.innerHTML) || isNaN(y.innerHTML)) {
-                v1 = x.innerHTML.toLowerCase();
-                v2= y.innerHTML.toLowerCase();
-              } else {
-                v1 = parseInt(x.innerHTML);
-                v2= parseInt(y.innerHTML);
-              }
-
-              if (dir == "asc") {
-                //if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-                if (v1 > v2) {
-                  // If so, mark as a switch and break the loop:
-                  shouldSwitch = true;
-                  break;
-                }
-              } else if (dir == "desc") {
-                //if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-                if (v1 < v2) {
-                  // If so, mark as a switch and break the loop:
-                  shouldSwitch = true;
-                  break;
-                }
-              }
-            }
-            if (shouldSwitch) {
-              /* If a switch has been marked, make the switch
-              and mark that a switch has been done: */
-              rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-              switching = true;
-              // Each time a switch is done, increase this count by 1:
-              switchcount ++;
-            } else {
-              /* If no switching has been done AND the direction is "asc",
-              set the direction to "desc" and run the while loop again. */
-              if (switchcount == 0 && dir == "asc") {
-                dir = "desc";
-                switching = true;
-              }
-            }
-          }
-        }
-
-        function cellStyle(value, row, index) {
-            return {
-                classes: value.trim() == 0 ? 'yes' : 'no'
-            };
-        }
-=======
     <title>COVID-19 - Novel Corona Virus Current Report</title>
     <script type="text/javascript" src="/js/key.js"></script>
 <!--    <script data-ad-client="ca-pub-7654250176015976" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>-->
@@ -124,22 +20,11 @@
     <script type="text/javascript" src="/js/country.js"></script>
     <script>
         var countryDataJSON = "[[${statsListJSON}]]";
->>>>>>> World-map
     </script>
     <script th:inline="javascript" src="/js/home.js"></script>
 </head>
 <body>
 <div class="container">
-<<<<<<< HEAD
-    <h2>COVID-19 - Live Report</h2>
-
-    <div class="jumbotron">
-<!--        <div class="spinner-border spinner-border-sm" role="status">-->
-<!--            <span class="sr-only">Loading...</span>-->
-<!--        </div>-->
-        <a>Total Deaths : </a>
-            <h1 class="display-4 text-danger" th:text="${#numbers.formatInteger(allTotalDeathCases,3,'COMMA')}" ></h1>
-=======
     <h2>COVID-19 Live Data</h2>
 <!--    <div class="spinner-border text-secondary ml-auto" id="loading" role="status" aria-hidden="true"></div>-->
     <a id="loading">
@@ -150,7 +35,6 @@
 <!--    <div class="jumbotron">-->
         <a class="lead">Total Deaths : </a>
         <h1 class="text-danger display-4" th:text="${#numbers.formatInteger(allTotalDeathCases,0,'COMMA')}" ></h1>
->>>>>>> World-map
         <a class="lead">Total Confirmed : </a>
         <a class="lead text-danger ont-weight-bold" th:text="${#numbers.formatInteger(allTotalCases,0,'COMMA')}" ></a>
         &nbsp;<a class="lead">Recovered : </a>
